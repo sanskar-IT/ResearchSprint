@@ -1,7 +1,7 @@
 # ResearchSprint: Collaborative AI Innovation Agent 🚀
 ### Kaggle Agents Intensive Capstone Project
 
-**Team:**Sanskar Malviya
+**Team:** Sanskar Malviya
 **Track:** Enterprise Agents 
 ## 📖 Project Pitch
 **Problem:** Innovation teams suffer from context switching—moving between research, brainstorming, and drafting reports breaks flow and introduces bias.  
