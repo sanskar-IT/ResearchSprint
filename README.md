@@ -1,9 +1,8 @@
 # ResearchSprint: Collaborative AI Innovation Agent 🚀
 ### Kaggle Agents Intensive Capstone Project
 
-**Team:** [Your Name/Team Name]  
-**Track:** Enterprise Agents (or your chosen track)
-
+**Team:**Sanskar Malviya
+**Track:** Enterprise Agents 
 ## 📖 Project Pitch
 **Problem:** Innovation teams suffer from context switching—moving between research, brainstorming, and drafting reports breaks flow and introduces bias.  
 **Solution:** ResearchSprint is a multi-agent system that simulates a full expert team (Planner, Scout, Critic, Scribe) to autonomously turn a one-line goal into a peer-reviewed, comprehensive technical report.
