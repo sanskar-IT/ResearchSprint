@@ -21,7 +21,7 @@
 
 ## 🚀 How to Run
 1. Clone this repository.
-2. Install dependencies: `pip install -q -U google-adk google-generativeai duckduckgo-search`
+2. Install dependencies: `pip install -q -U google-generativeai duckduckgo-search`
 3. Add your Gemini API Key to secrets.
 4. Run `google-capstone-project-submission.ipynb`.
 5. Run tests: `python -m unittest discover -s tests -p 'test*.py' -v`.
