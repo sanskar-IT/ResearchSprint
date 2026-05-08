@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import json
+import logging
 from dataclasses import dataclass, field
 from typing import Callable, Dict, List, Mapping, Optional, Protocol, Sequence
 
 DEFAULT_PREFERRED_MODEL = "gemini-2.5-flash"
 DEFAULT_FALLBACK_MODEL = "gemini-1.5-flash"
+logger = logging.getLogger(__name__)
 
 
 class ModelClient(Protocol):
@@ -93,6 +95,7 @@ class ResearchAgent:
                 system_instruction=self.role,
             )
         except Exception as exc:  # defensive path, tested
+            logger.exception("Agent '%s' failed during generation", self.name)
             return f"Error in {self.name}: {exc}"
 
 
