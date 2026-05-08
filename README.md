@@ -16,14 +16,15 @@
 
 ## 🛠️ Tech Stack
 * **Model:** Google Gemini 2.5 Flash
-* **Framework:** Google Generative AI SDK (Python)
+* **Framework:** Google ADK-style workflow with Gemini models
 * **Environment:** Kaggle Notebooks
 
 ## 🚀 How to Run
 1. Clone this repository.
-2. Install dependencies: `pip install -q -U google-generativeai duckduckgo-search`
+2. Install dependencies: `pip install -q -U google-generativeai ddgs`
 3. Add your Gemini API Key to secrets.
-4. Run `ResearchSprint.ipynb`.
+4. Run `google-capstone-project-submission.ipynb`.
+5. Run tests: `python -m unittest discover -s tests -p 'test*.py' -v`.
 
 ## 📄 Example Output
 (https://docs.google.com/document/d/1Xu-JQUZ-4uvUhZK0b1ufb6vhIG_87W-3/edit?usp=sharing&ouid=117318804700665677451&rtpof=true&sd=true)]
