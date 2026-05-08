@@ -159,9 +159,10 @@ class ResearchSprintOrchestrator:
         )
         self.log_step("Scribe Agent", final_deliverable)
 
-        _ = memory.process(
+        archive_summary = memory.process(
             task_input="Create a concise executive summary of this entire session for the archives.",
             context=self.full_context,
         )
+        self.log_step("Memory Agent", archive_summary)
 
         return final_deliverable

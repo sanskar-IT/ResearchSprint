@@ -127,9 +127,24 @@ class TestOrchestrator(unittest.TestCase):
         result = orch.run_sprint("Build X")
 
         self.assertEqual(result, "final1")
-        self.assertEqual(len(orch.history), 6)
+        self.assertEqual(len(orch.history), 7)
         self.assertIn("Sprint Planner Output", orch.full_context)
         self.assertIn("Scribe Agent Output", orch.full_context)
+        self.assertIn("Memory Agent Output", orch.full_context)
+
+        logged_agents = [entry.split(" Output ---", 1)[0].replace("--- ", "") for entry in orch.history]
+        self.assertEqual(
+            logged_agents,
+            [
+                "Sprint Planner",
+                "Knowledge Scout",
+                "Ideation Generator",
+                "Critique Agent",
+                "Integration Agent",
+                "Scribe Agent",
+                "Memory Agent",
+            ],
+        )
 
         scout_prompt = agents["scout"].model_client.calls[0]["prompt"]
         self.assertIn("plan1", scout_prompt)
