@@ -43,7 +43,15 @@ class FakeDDGS:
 
     def text(self, query, max_results=5):
         self.text_calls.append((query, max_results))
-        return [{"title": "result", "query": query, "max_results": max_results}]
+        return [
+            {
+                "title": "result",
+                "href": "https://example.com",
+                "body": "summary",
+                "query": query,
+                "max_results": max_results,
+            }
+        ]
 
 
 class TestCoreHelpers(unittest.TestCase):

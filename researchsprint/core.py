@@ -73,7 +73,10 @@ def internet_search(
     """Search the internet and return JSON serialized results."""
 
     if ddgs_client_factory is None:
-        from duckduckgo_search import DDGS  # lazy import for testability
+        try:
+            from ddgs import DDGS  # package rename target
+        except ImportError:  # backward compatibility
+            from duckduckgo_search import DDGS
 
         ddgs_client_factory = DDGS
 
@@ -101,7 +104,7 @@ class ResearchAgent:
                 tools=self.tools,
                 system_instruction=self.role,
             )
-        except Exception as exc:  # defensive path, tested
+        except (RuntimeError, TimeoutError, ConnectionError, ValueError) as exc:
             logger.exception("Agent '%s' failed during generation", self.name)
             return f"Error in {self.name}: {exc}"
 
