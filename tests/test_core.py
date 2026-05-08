@@ -43,7 +43,7 @@ class FakeDDGS:
 
     def text(self, query, max_results=5):
         self.text_calls.append((query, max_results))
-        return [{"title": "result", "query": query, "max": max_results}]
+        return [{"title": "result", "query": query, "max_results": max_results}]
 
 
 class TestCoreHelpers(unittest.TestCase):
@@ -70,7 +70,7 @@ class TestCoreHelpers(unittest.TestCase):
         out = internet_search("adk", max_results=3, ddgs_client_factory=FakeDDGS)
         parsed = json.loads(out)
         self.assertEqual(parsed[0]["query"], "adk")
-        self.assertEqual(parsed[0]["max"], 3)
+        self.assertEqual(parsed[0]["max_results"], 3)
 
 
 class TestResearchAgent(unittest.TestCase):
@@ -131,6 +131,7 @@ class TestOrchestrator(unittest.TestCase):
         self.assertIn("Sprint Planner Output", orch.full_context)
         self.assertIn("Scribe Agent Output", orch.full_context)
         self.assertIn("Memory Agent Output", orch.full_context)
+        self.assertEqual(orch.latest_archive_summary, "summary1")
 
         expected_agents_in_order = [
             "Sprint Planner",

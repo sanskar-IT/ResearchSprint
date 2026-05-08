@@ -10,6 +10,13 @@ from typing import Callable, Dict, List, Mapping, Optional, Protocol, Sequence
 DEFAULT_PREFERRED_MODEL = "gemini-2.5-flash"
 DEFAULT_FALLBACK_MODEL = "gemini-1.5-flash"
 logger = logging.getLogger(__name__)
+PLANNER_TASK_TEMPLATE = "Create a research plan for: {user_objective}"
+SCOUT_TASK_TEMPLATE = "Execute the research steps defined in this plan: {plan}"
+IDEATION_TASK = "Generate innovative concepts based on the research data."
+CRITIQUE_TASK = "Critically review these concepts. Find flaws and suggest fixes."
+INTEGRATION_TASK = "Select the best concept and refine it using the critique details."
+SCRIBE_TASK = "Write the final comprehensive report/proposal based on the refined strategy."
+MEMORY_TASK = "Create a concise executive summary of this entire session for the archives."
 
 
 class ModelClient(Protocol):
@@ -106,6 +113,7 @@ class ResearchSprintOrchestrator:
     agents: Mapping[str, ResearchAgent]
     history: List[str] = field(default_factory=list)
     full_context: str = ""
+    latest_archive_summary: str = ""
 
     def _require_agent(self, key: str) -> ResearchAgent:
         if key not in self.agents:
@@ -127,45 +135,46 @@ class ResearchSprintOrchestrator:
         memory = self._require_agent("memory")
 
         plan = planner.process(
-            task_input=f"Create a research plan for: {user_objective}",
+            task_input=PLANNER_TASK_TEMPLATE.format(user_objective=user_objective),
             context=self.full_context,
         )
         self.log_step("Sprint Planner", plan)
 
         research_data = scout.process(
-            task_input=f"Execute the research steps defined in this plan: {plan}",
+            task_input=SCOUT_TASK_TEMPLATE.format(plan=plan),
             context=self.full_context,
         )
         self.log_step("Knowledge Scout", research_data)
 
         concepts = ideation.process(
-            task_input="Generate innovative concepts based on the research data.",
+            task_input=IDEATION_TASK,
             context=self.full_context,
         )
         self.log_step("Ideation Generator", concepts)
 
         critique_result = critique.process(
-            task_input="Critically review these concepts. Find flaws and suggest fixes.",
+            task_input=CRITIQUE_TASK,
             context=self.full_context,
         )
         self.log_step("Critique Agent", critique_result)
 
         refined_strategy = integration.process(
-            task_input="Select the best concept and refine it using the critique details.",
+            task_input=INTEGRATION_TASK,
             context=self.full_context,
         )
         self.log_step("Integration Agent", refined_strategy)
 
         final_deliverable = scribe.process(
-            task_input="Write the final comprehensive report/proposal based on the refined strategy.",
+            task_input=SCRIBE_TASK,
             context=self.full_context,
         )
         self.log_step("Scribe Agent", final_deliverable)
 
         archive_summary = memory.process(
-            task_input="Create a concise executive summary of this entire session for the archives.",
+            task_input=MEMORY_TASK,
             context=self.full_context,
         )
+        self.latest_archive_summary = archive_summary
         self.log_step("Memory Agent", archive_summary)
 
         return final_deliverable
