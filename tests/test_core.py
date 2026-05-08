@@ -110,7 +110,7 @@ class TestResearchAgent(unittest.TestCase):
 
 class TestOrchestrator(unittest.TestCase):
     @staticmethod
-    def _build_agent(name, response):
+    def _create_test_agent(name, response):
         return ResearchAgent(name=name, role=f"{name} role", model_client=FakeModelClient(response=response))
 
     def test_log_step_accumulates_history_and_context(self):
@@ -122,13 +122,13 @@ class TestOrchestrator(unittest.TestCase):
 
     def test_run_sprint_executes_all_stages_and_returns_scribe_output(self):
         agents = {
-            "planner": self._build_agent("planner", "plan1"),
-            "scout": self._build_agent("scout", "research1"),
-            "ideation": self._build_agent("ideation", "ideas1"),
-            "critique": self._build_agent("critique", "critique1"),
-            "integration": self._build_agent("integration", "refined1"),
-            "scribe": self._build_agent("scribe", "final1"),
-            "memory": self._build_agent("memory", "summary1"),
+            "planner": self._create_test_agent("planner", "plan1"),
+            "scout": self._create_test_agent("scout", "research1"),
+            "ideation": self._create_test_agent("ideation", "ideas1"),
+            "critique": self._create_test_agent("critique", "critique1"),
+            "integration": self._create_test_agent("integration", "refined1"),
+            "scribe": self._create_test_agent("scribe", "final1"),
+            "memory": self._create_test_agent("memory", "summary1"),
         }
         orch = ResearchSprintOrchestrator(agents=agents)
 
@@ -158,7 +158,7 @@ class TestOrchestrator(unittest.TestCase):
         self.assertIn("Sprint Planner Output", scout_prompt)
 
     def test_run_sprint_requires_all_agents(self):
-        orch = ResearchSprintOrchestrator(agents={"planner": self._build_agent("planner", "x")})
+        orch = ResearchSprintOrchestrator(agents={"planner": self._create_test_agent("planner", "x")})
         with self.assertRaises(ValueError):
             orch.run_sprint("objective")
 

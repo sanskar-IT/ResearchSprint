@@ -74,7 +74,7 @@ def internet_search(
 
     if ddgs_client_factory is None:
         try:
-            from ddgs import DDGS  # package rename target
+            from ddgs import DDGS  # ddgs is the new package name replacing duckduckgo-search
         except ImportError:  # backward compatibility
             from duckduckgo_search import DDGS
 
